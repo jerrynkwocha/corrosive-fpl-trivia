@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corrosive FPL Trivia</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pitch: #07193a;
+    --pitch-light: #0d2550;
+    --gold: #38bdf8;
+    --gold-dark: #0ea5e9;
+    --cream: #e8f2ff;
+    --white: #ffffff;
+    --red: #f43f5e;
+    --green-correct: #22d3a5;
+    --ink: #040e21;
+    --muted: #4a6a8a;
+    --card-bg: #0b2040;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--pitch);
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(56,189,248,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(99,102,241,0.07) 0%, transparent 50%),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 60px,
+        rgba(56,189,248,0.03) 60px,
+        rgba(56,189,248,0.03) 61px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 60px,
+        rgba(56,189,248,0.03) 60px,
+        rgba(56,189,248,0.03) 61px
+      );
+    font-family: 'DM Sans', sans-serif;
+    color: var(--cream);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--ink);
+    border-bottom: 3px solid var(--gold);
+    background: linear-gradient(90deg, #040e21 0%, #091a38 100%);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+  }
+
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .kit-icon {
+    width: 38px;
+    height: 38px;
+    background: var(--gold);
+    clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .header-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    color: var(--gold);
+  }
+
+  .header-title span {
+    color: var(--white);
+  }
+
+  .score-badge {
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    padding: 6px 16px;
+    border-radius: 4px;
+  }
+
+  /* HERO / INTRO */
+  .intro-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 65px);
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .intro-badge {
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+    padding: 6px 18px;
+    border-radius: 2px;
+    margin-bottom: 24px;
+  }
+
+  .intro-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 10vw, 6.5rem);
+    line-height: 0.95;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .intro-title .highlight {
+    color: var(--gold);
+    display: block;
+  }
+
+  .intro-subtitle {
+    font-size: 1rem;
+    color: rgba(250,244,225,0.65);
+    font-weight: 300;
+    max-width: 420px;
+    line-height: 1.6;
+    margin-bottom: 36px;
+  }
+
+  .season-pill {
+    background: rgba(56,189,248,0.08);
+    border: 1px solid rgba(56,189,248,0.3);
+    color: var(--gold);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 3px;
+    padding: 6px 20px;
+    border-radius: 100px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(250,244,225,0.5);
+    margin-top: 4px;
+  }
+
+  .btn-start {
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 3px;
+    padding: 16px 52px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 6px 24px rgba(56,189,248,0.3);
+  }
+
+  .btn-start:hover {
+    background: var(--gold-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 32px rgba(56,189,248,0.45);
+  }
+
+  /* QUIZ AREA */
+  .quiz-screen {
+    display: none;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+  }
+
+  .progress-bar-wrap {
+    background: rgba(255,255,255,0.08);
+    border-radius: 100px;
+    height: 5px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 100px;
+    transition: width 0.5s ease;
+  }
+
+  .q-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(250,244,225,0.45);
+  }
+
+  .q-category {
+    background: rgba(56,189,248,0.1);
+    border: 1px solid rgba(56,189,248,0.3);
+    color: var(--gold);
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+  }
+
+  .question-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 32px 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    animation: cardIn 0.4s ease;
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .question-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .question-num::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  .question-text {
+    font-size: 1.15rem;
+    font-weight: 500;
+    line-height: 1.55;
+    color: var(--cream);
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 520px) {
+    .options-grid { grid-template-columns: 1fr; }
+  }
+
+  .option-btn {
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 400;
+    padding: 14px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .option-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .option-btn:hover:not(:disabled) {
+    border-color: rgba(245,200,66,0.5);
+    background: rgba(245,200,66,0.08);
+    transform: translateX(3px);
+  }
+
+  .opt-letter {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: var(--gold);
+    background: rgba(245,200,66,0.12);
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .opt-text { position: relative; z-index: 1; }
+
+  .option-btn.correct {
+    background: rgba(45,198,83,0.15);
+    border-color: var(--green-correct);
+    color: var(--white);
+  }
+
+  .option-btn.correct .opt-letter {
+    background: var(--green-correct);
+    color: var(--white);
+  }
+
+  .option-btn.wrong {
+    background: rgba(230,57,70,0.15);
+    border-color: var(--red);
+    color: rgba(250,244,225,0.5);
+  }
+
+  .option-btn.wrong .opt-letter {
+    background: var(--red);
+    color: var(--white);
+  }
+
+  .option-btn:disabled { cursor: default; transform: none; }
+
+  /* FEEDBACK */
+  .feedback-box {
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .feedback-box.correct-fb {
+    background: rgba(45,198,83,0.12);
+    border: 1px solid rgba(45,198,83,0.35);
+    color: #7defa3;
+    display: block;
+  }
+
+  .feedback-box.wrong-fb {
+    background: rgba(230,57,70,0.1);
+    border: 1px solid rgba(230,57,70,0.3);
+    color: #f4a0a7;
+    display: block;
+  }
+
+  .feedback-icon {
+    font-size: 1.1rem;
+    margin-right: 6px;
+  }
+
+  .btn-next {
+    background: transparent;
+    border: 2px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    padding: 13px 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: none;
+    margin: 0 auto;
+  }
+
+  .btn-next:hover {
+    background: var(--gold);
+    color: var(--ink);
+  }
+
+  /* RESULTS */
+  .results-screen {
+    display: none;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 50px 20px 80px;
+    text-align: center;
+    animation: cardIn 0.5s ease;
+  }
+
+  .trophy-wrap {
+    font-size: 4.5rem;
+    margin-bottom: 20px;
+    animation: bounce 1s ease infinite alternate;
+  }
+
+  @keyframes bounce {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-10px); }
+  }
+
+  .result-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+  }
+
+  .result-subtitle {
+    color: rgba(250,244,225,0.55);
+    font-size: 0.95rem;
+    margin-bottom: 36px;
+  }
+
+  .result-score-ring {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 6px solid var(--gold);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 36px;
+    background: rgba(56,189,248,0.06);
+    box-shadow: 0 0 40px rgba(56,189,248,0.25);
+  }
+
+  .ring-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.2rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .ring-label {
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(250,244,225,0.45);
+    margin-top: 4px;
+  }
+
+  .verdict-banner {
+    background: var(--card-bg);
+    border: 1px solid rgba(56,189,248,0.2);
+    border-radius: 12px;
+    padding: 20px 28px;
+    margin-bottom: 32px;
+  }
+
+  .verdict-emoji { font-size: 1.8rem; margin-bottom: 8px; }
+  .verdict-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .verdict-desc {
+    font-size: 0.88rem;
+    color: rgba(250,244,225,0.55);
+    line-height: 1.5;
+  }
+
+  .answer-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+    margin-bottom: 36px;
+  }
+
+  .ans-row {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border-left: 3px solid transparent;
+    font-size: 0.85rem;
+  }
+
+  .ans-row.c { border-left-color: var(--green-correct); }
+  .ans-row.w { border-left-color: var(--red); }
+
+  .ans-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+  .ans-q { color: rgba(250,244,225,0.7); margin-bottom: 4px; }
+  .ans-correct { color: var(--green-correct); font-weight: 500; }
+
+  .btn-restart {
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 3px;
+    padding: 15px 44px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 6px 24px rgba(56,189,248,0.25);
+  }
+
+  .btn-restart:hover {
+    background: var(--gold-dark);
+    transform: translateY(-2px);
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-logo">
+    <div class="kit-icon">⚽</div>
+    <div class="header-title"><span>CORROSIVE</span> FPL TRIVIA</div>
+  </div>
+  <div class="score-badge" id="headerScore" style="display:none">0 / 20</div>
+</header>
+
+<!-- INTRO -->
+<div class="intro-screen" id="introScreen">
+  <div class="intro-badge">Season 2024 / 25</div>
+  <h1 class="intro-title">
+    Corrosive
+    <span class="highlight">FPL Trivia</span>
+    Challenge
+  </h1>
+  <p class="intro-subtitle">20 savage questions covering goals, assists, FPL records, relegation battles, and stats from the Premier League season.</p>
+  <div class="season-pill">⚡ Think before you click — these bite</div>
+  <div class="stat-row">
+    <div class="stat-item">
+      <div class="stat-num">20</div>
+      <div class="stat-label">Questions</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">2</div>
+      <div class="stat-label">Categories</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Bragging Rights</div>
+    </div>
+  </div>
+  <button class="btn-start" onclick="startQuiz()">KICK OFF</button>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz-screen" id="quizScreen">
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+  </div>
+  <div class="q-meta">
+    <span id="qCounter">Question 1 of 20</span>
+    <span class="q-category" id="qCategory">EPL</span>
+  </div>
+  <div class="question-card" id="questionCard">
+    <div class="question-num" id="questionNum">QUESTION 01</div>
+    <p class="question-text" id="questionText">Loading...</p>
+  </div>
+  <div class="options-grid" id="optionsGrid"></div>
+  <div class="feedback-box" id="feedbackBox"></div>
+  <button class="btn-next" id="nextBtn" onclick="nextQuestion()">NEXT QUESTION →</button>
+</div>
+
+<!-- RESULTS -->
+<div class="results-screen" id="resultsScreen">
+  <div class="trophy-wrap" id="trophyEmoji">🏆</div>
+  <h2 class="result-title" id="resultTitle">FULL TIME!</h2>
+  <p class="result-subtitle" id="resultSubtitle">Here's how you did</p>
+  <div class="result-score-ring">
+    <div class="ring-score" id="ringScore">0</div>
+    <div class="ring-label">out of 20</div>
+  </div>
+  <div class="verdict-banner" id="verdictBanner">
+    <div class="verdict-emoji" id="verdictEmoji">🎯</div>
+    <div class="verdict-text" id="verdictText">FPL GENIUS</div>
+    <div class="verdict-desc" id="verdictDesc">You clearly live and breathe FPL</div>
+  </div>
+  <div class="answer-summary" id="answerSummary"></div>
+  <button class="btn-restart" onclick="restartQuiz()">PLAY AGAIN</button>
+</div>
+
+<script>
+const questions = [
+  {
+    cat: "FPL",
+    q: "Mohamed Salah broke the all-time FPL points record in 2024/25. What was his final season total?",
+    opts: ["303 pts", "317 pts", "344 pts", "328 pts"],
+    ans: 2,
+    exp: "Salah finished on 344 FPL points — smashing the previous record by a whopping 41 points and setting an all-time high in the game's 23-year history."
+  },
+  {
+    cat: "EPL",
+    q: "Salah won his 4th Golden Boot in 2024/25 with 29 goals, equalling which legendary player's record of 4 PL Golden Boots?",
+    opts: ["Alan Shearer", "Harry Kane", "Thierry Henry", "Robbie Fowler"],
+    ans: 2,
+    exp: "Salah tied Thierry Henry, who won his four Golden Boots in 2001-02, 2003-04, 2004-05, and 2005-06. Both now hold the all-time record."
+  },
+  {
+    cat: "EPL",
+    q: "Which goalkeeper claimed the 2024/25 FPL top-scoring goalkeeper award with 158 points?",
+    opts: ["David Raya", "Matz Sels", "Jordan Pickford", "Nick Pope"],
+    ans: 2,
+    exp: "Jordan Pickford edged out Matz Sels to finish as the highest-scoring FPL goalkeeper with 158 points — his second consecutive season topping that chart."
+  },
+  {
+    cat: "EPL",
+    q: "Which two goalkeepers shared the Golden Glove in 2024/25 with 13 clean sheets each?",
+    opts: ["Pickford & Raya", "Raya & Sels", "Sels & Flekken", "Pickford & Sels"],
+    ans: 1,
+    exp: "David Raya (Arsenal) and Matz Sels (Nottingham Forest) both kept 13 clean sheets, sharing the Golden Glove award for the season."
+  },
+  {
+    cat: "FPL",
+    q: "Bryan Mbeumo finished 2nd in FPL points with 236. Which club does he play for?",
+    opts: ["Crystal Palace", "Fulham", "Brentford", "Bournemouth"],
+    ans: 2,
+    exp: "Mbeumo plays for Brentford. He was FPL's best-value player based on starting price (33.7 points per £1m), starting every game and registering an attacking return in 21 matches."
+  },
+  {
+    cat: "EPL",
+    q: "Three clubs were relegated from the 2024/25 Premier League — all of them promoted that same season. Which trio went down?",
+    opts: ["Burnley, Luton, Sheffield Utd", "Leicester, Ipswich, Southampton", "Brentford, Ipswich, Luton", "Southampton, Burnley, Leicester"],
+    ans: 1,
+    exp: "All three newly-promoted clubs — Leicester City, Ipswich Town, and Southampton — were immediately relegated. Each managed just 2 clean sheets in 35 matches."
+  },
+  {
+    cat: "EPL",
+    q: "What was the biggest home win of the 2024/25 Premier League season, achieved by Nottingham Forest?",
+    opts: ["Forest 6-0 Everton", "Forest 7-0 Brighton", "Forest 5-0 Man Utd", "Forest 6-1 Wolves"],
+    ans: 1,
+    exp: "Nottingham Forest thrashed Brighton & Hove Albion 7-0 on 1 February 2025 — the biggest home win of the season."
+  },
+  {
+    cat: "EPL",
+    q: "Which Newcastle player finished 2nd in the 2024/25 PL assist charts with 12 assists — a massive surprise to most FPL managers?",
+    opts: ["Harvey Barnes", "Jacob Murphy", "Joelinton", "Anthony Gordon"],
+    ans: 1,
+    exp: "Jacob Murphy quietly had a phenomenal season, racking up 12 PL assists and 159 FPL points — almost doubling his previous best of 83 from the prior season."
+  },
+  {
+    cat: "EPL",
+    q: "Salah's 47 combined goals and assists in 2024/25 equalled a Premier League record held by which two players?",
+    opts: ["Shearer & Henry", "Cole & Shearer", "Henry & De Bruyne", "Bergkamp & Cole"],
+    ans: 1,
+    exp: "Salah joined Alan Shearer and Andy Cole on 47 goal contributions in a single campaign — an all-time Premier League record for combined goals and assists."
+  },
+  {
+    cat: "FPL",
+    q: "Erling Haaland started the 2024/25 season as the most expensive FPL player ever. What was his starting price?",
+    opts: ["£14.0m", "£14.5m", "£15.0m", "£13.5m"],
+    ans: 2,
+    exp: "Haaland started at £15.0m — the most expensive player in FPL history. He also set a record for most points after 5 Gameweeks with 63 points."
+  },
+  {
+    cat: "EPL",
+    q: "Chris Wood of Nottingham Forest scored 20 goals in 2024/25. Which other player also scored exactly 20 goals that season?",
+    opts: ["Alexander Isak", "Bryan Mbeumo", "Ollie Watkins", "Cole Palmer"],
+    ans: 1,
+    exp: "Bryan Mbeumo also finished on exactly 20 league goals — tying Chris Wood. Brentford were remarkable, with THREE double-digit scorers: Mbeumo (20), Wissa (19), and Schade (11)."
+  },
+  {
+    cat: "EPL",
+    q: "Which was the highest-scoring match of the entire 2024/25 Premier League season (9 goals total)?",
+    opts: ["Man City 6-1 Wolves", "Arsenal 5-1 Chelsea", "Spurs 3-6 Liverpool", "Forest 7-0 Brighton"],
+    ans: 2,
+    exp: "Tottenham Hotspur 3-6 Liverpool on 22 December 2024 was the highest-scoring game of the season with 9 goals — and what a Christmas gift for Liverpool fans."
+  },
+  {
+    cat: "EPL",
+    q: "Liverpool won the 2024/25 Premier League title. How many points did they finish on?",
+    opts: ["79 pts", "84 pts", "91 pts", "88 pts"],
+    ans: 1,
+    exp: "Liverpool finished on 84 points, 10 ahead of Arsenal (74). They also had the most shots (639), most goals scored (86), and a record 26-match unbeaten run."
+  },
+  {
+    cat: "EPL",
+    q: "Arsenal conceded just 34 goals all season — the best defensive record in the league. How many per game was that?",
+    opts: ["0.79 per game", "0.89 per game", "1.01 per game", "0.71 per game"],
+    ans: 1,
+    exp: "Arsenal's xGC of just 40.60 and 34 goals conceded (0.89 per game) was the best defensive record in the 2024/25 Premier League by a clear margin."
+  },
+  {
+    cat: "FPL",
+    q: "Salah set a new FPL bonus points record in 2024/25 with 55 bonus points. Whose previous record did he break?",
+    opts: ["Didier Drogba", "Frank Lampard", "Cesc Fabregas", "Thierry Henry"],
+    ans: 2,
+    exp: "Salah's 55 bonus points surpassed Cesc Fàbregas' long-standing record of 54 bonus points from the 2006/07 season. Salah clinched the record on the final day."
+  },
+  {
+    cat: "FPL",
+    q: "Salah was captained by FPL managers a record number of times across the season. Approximately how many times total?",
+    opts: ["42 million times", "98 million times", "139 million times", "200 million times"],
+    ans: 2,
+    exp: "Salah was handed the captaincy armband 139,874,652 times across the 38 Gameweeks — making him the undisputed default captain choice for the entire season."
+  },
+  {
+    cat: "EPL",
+    q: "Which club qualified for the Europa League by winning the FA Cup in 2024/25, despite finishing 12th in the league?",
+    opts: ["Everton", "Wolves", "Nottingham Forest", "Crystal Palace"],
+    ans: 3,
+    exp: "Crystal Palace won the FA Cup and qualified for the Conference League playoff round as FA Cup winners — despite finishing 12th in the Premier League."
+  },
+  {
+    cat: "EPL",
+    q: "The oldest outfield player AND oldest scorer in the 2024/25 Premier League season was which 39-year-old?",
+    opts: ["James Milner", "Ashley Young", "Gareth Bale", "Jonjo Shelvey"],
+    ans: 1,
+    exp: "Ashley Young, aged 39, scored 1 goal for Everton and was the oldest outfield player and oldest scorer in the entire 2024/25 Premier League season."
+  },
+  {
+    cat: "FPL",
+    q: "How many total participants played FPL in 2024/25 — the most in the game's 23-year history?",
+    opts: ["8.2 million", "11.5 million", "14.3 million", "9.8 million"],
+    ans: 1,
+    exp: "More than 11.5 million people took part in 2024/25 FPL — an all-time record. They played a record 26.6 million chips, including records for Wildcard and Triple Captain."
+  },
+  {
+    cat: "EPL",
+    q: "Salah's goals and assists accounted for what percentage of Liverpool's total goal contributions in 2024/25?",
+    opts: ["38.1%", "47.3%", "54.7%", "61.2%"],
+    ans: 2,
+    exp: "Salah's contributions accounted for a staggering 54.7% of Liverpool's total goal contributions — underscoring just how dependent the champions were on one man's brilliance."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+let userAnswers = [];
+
+function startQuiz() {
+  document.getElementById('introScreen').style.display = 'none';
+  document.getElementById('quizScreen').style.display = 'block';
+  document.getElementById('headerScore').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  answered = false;
+  document.getElementById('progressBar').style.width = `${(currentQ / 20) * 100}%`;
+  document.getElementById('qCounter').textContent = `Question ${currentQ + 1} of 20`;
+  document.getElementById('qCategory').textContent = q.cat;
+  document.getElementById('questionNum').textContent = `QUESTION ${String(currentQ + 1).padStart(2, '0')}`;
+  document.getElementById('questionText').textContent = q.q;
+  document.getElementById('feedbackBox').className = 'feedback-box';
+  document.getElementById('feedbackBox').style.display = 'none';
+  document.getElementById('nextBtn').style.display = 'none';
+
+  const grid = document.getElementById('optionsGrid');
+  grid.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span><span class="opt-text">${opt}</span>`;
+    btn.onclick = () => selectAnswer(i);
+    grid.appendChild(btn);
+  });
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[currentQ];
+  const btns = document.querySelectorAll('.option-btn');
+  const fb = document.getElementById('feedbackBox');
+
+  btns.forEach(b => b.disabled = true);
+  btns[q.ans].classList.add('correct');
+
+  const correct = idx === q.ans;
+  if (!correct) btns[idx].classList.add('wrong');
+  if (correct) score++;
+
+  userAnswers[currentQ] = { correct, chosen: idx };
+
+  fb.innerHTML = `<span class="feedback-icon">${correct ? '✅' : '❌'}</span> ${correct ? '<strong>Correct!</strong>' : '<strong>Not quite.</strong>'} ${q.exp}`;
+  fb.className = `feedback-box ${correct ? 'correct-fb' : 'wrong-fb'}`;
+  document.getElementById('nextBtn').style.display = 'block';
+
+  document.getElementById('headerScore').textContent = `${score} / 20`;
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= 20) {
+    showResults();
+  } else {
+    renderQuestion();
+    document.getElementById('questionCard').style.animation = 'none';
+    void document.getElementById('questionCard').offsetWidth;
+    document.getElementById('questionCard').style.animation = 'cardIn 0.4s ease';
+  }
+}
+
+function showResults() {
+  document.getElementById('quizScreen').style.display = 'none';
+  document.getElementById('resultsScreen').style.display = 'block';
+  document.getElementById('progressBar').style.width = '100%';
+  document.getElementById('ringScore').textContent = score;
+
+  let emoji, title, desc;
+  if (score >= 18) { emoji = '🏆'; title = 'FPL ELITE'; desc = 'You are a certified FPL wizard. Probably top 10k finisher material.'; }
+  else if (score >= 15) { emoji = '🌟'; title = 'PREMIER MANAGER'; desc = 'Excellent knowledge! You clearly follow the game closely.'; }
+  else if (score >= 11) { emoji = '⚽'; title = 'SOLID MIDFIELDER'; desc = 'Good effort! A few stats slipped past you but you know your football.'; }
+  else if (score >= 7)  { emoji = '🔁'; title = 'NEEDS TRANSFERS'; desc = 'Some tough questions caught you out. Time to study the FPL stats page.'; }
+  else { emoji = '📉'; title = 'ROUGH GAMEWEEK'; desc = 'It happens to the best of us. Chip the Triple Captain and go again.'; }
+
+  document.getElementById('trophyEmoji').textContent = emoji;
+  document.getElementById('verdictEmoji').textContent = emoji;
+  document.getElementById('verdictText').textContent = title;
+  document.getElementById('verdictDesc').textContent = desc;
+  document.getElementById('resultTitle').textContent = score >= 15 ? 'FULL TIME!' : 'FINAL WHISTLE';
+
+  const summary = document.getElementById('answerSummary');
+  summary.innerHTML = '';
+  questions.forEach((q, i) => {
+    const ua = userAnswers[i];
+    const row = document.createElement('div');
+    row.className = `ans-row ${ua && ua.correct ? 'c' : 'w'}`;
+    row.innerHTML = `
+      <span class="ans-icon">${ua && ua.correct ? '✅' : '❌'}</span>
+      <div>
+        <div class="ans-q">${q.q}</div>
+        <div class="ans-correct">✔ ${q.opts[q.ans]}</div>
+      </div>`;
+    summary.appendChild(row);
+  });
+}
+
+function restartQuiz() {
+  currentQ = 0; score = 0; answered = false; userAnswers = [];
+  document.getElementById('headerScore').textContent = '0 / 20';
+  document.getElementById('resultsScreen').style.display = 'none';
+  document.getElementById('quizScreen').style.display = 'block';
+  renderQuestion();
+}
+</script>
+</body>
+</html>
